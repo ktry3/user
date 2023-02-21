@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:finalprojectkrumony/dashboard.dart';
+import 'package:finalprojectkrumony/view/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'api.dart';
+import '../api/api.dart';
 import 'register.dart';
 
 class LoginPageApp extends StatefulWidget {
@@ -47,7 +47,7 @@ class _LoginPageAppState extends State<LoginPageApp> {
             'token',
             json.encode(body['token']),
           );
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Dashboard()),
           );
@@ -65,10 +65,11 @@ class _LoginPageAppState extends State<LoginPageApp> {
         centerTitle: true,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.cover, image: AssetImage('assets/images/image1.jpg')),
-        ),
+        color: Colors.grey,
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //       fit: BoxFit.cover, image: AssetImage('assets/images/image1.jpg')),
+        // ),
         child: Form(
           child: Center(
             child: Padding(
@@ -146,7 +147,7 @@ class _LoginPageAppState extends State<LoginPageApp> {
                       ),
                       const Text(
                         'Don\'t have any account?',
-                        style: TextStyle(color: Colors.amber),
+                        style: TextStyle(color: Colors.black),
                       ),
                       const SizedBox(
                         width: 10,

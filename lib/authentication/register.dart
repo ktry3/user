@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:finalprojectkrumony/loginpage.dart';
+import 'package:finalprojectkrumony/authentication/loginpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'api.dart';
-import 'dashboard.dart';
+import '../api/api.dart';
+import '../view/dashboard.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

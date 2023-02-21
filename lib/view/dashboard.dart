@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'package:finalprojectkrumony/bottonbar/Fifth.dart';
 import 'package:finalprojectkrumony/bottonbar/forthpage.dart';
-import 'package:finalprojectkrumony/loginpage.dart';
+import 'package:finalprojectkrumony/view/displayuser.dart';
+import 'package:finalprojectkrumony/authentication/loginpage.dart';
+import 'package:finalprojectkrumony/view/list_all.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'bottonbar/hommepage.dart';
-import 'api.dart';
-import 'bottonbar/secondpage.dart';
-import 'bottonbar/third.dart';
+import '../bottonbar/hommepage.dart';
+import '../api/api.dart';
+import '../bottonbar/secondpage.dart';
+import '../bottonbar/third.dart';
+import 'insert_user.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -24,7 +27,7 @@ class _DashbaordState extends State<Dashboard> {
     var body = json.decode(res.body);
     localStorage.remove('user');
     localStorage.remove('token');
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const LoginPageApp(),
@@ -32,12 +35,17 @@ class _DashbaordState extends State<Dashboard> {
     );
   }
 
+  void user_insert() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => UserInsert()));
+  }
+
   int cur = 0;
   final screen = [
     const HomePage(),
     const SecondPage(),
-    const ThirdPage(),
     const ForthPage(),
+    const ListAll(),
     const FifthPage(),
   ];
   @override
@@ -81,12 +89,36 @@ class _DashbaordState extends State<Dashboard> {
                 ),
               ),
               ListTile(
+                tileColor: Colors.amber,
+                leading: const Icon(
+                  Icons.people_alt_outlined,
+                ),
+                title: const Text('Insert User'),
+                onTap: () {
+                  user_insert();
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.home,
+                ),
+                title: const Text('Display User'),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => const DisplayUser()),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
                 leading: const Icon(
                   Icons.home,
                 ),
                 title: const Text('Log Out'),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: ((context) => const LoginPageApp()),

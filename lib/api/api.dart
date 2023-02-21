@@ -27,4 +27,12 @@ class CallApi {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
+
+  postWithToken(token, apiUrl) async {
+    var fullUrl = _url + apiUrl;
+    return http.post(
+      fullUrl,
+      headers: _setHeaderLogouts(token),
+    );
+  }
 }
