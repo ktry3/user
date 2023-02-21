@@ -1,19 +1,48 @@
 import 'package:finalprojectkrumony/models/listproduct.dart';
 import 'package:flutter/material.dart';
+import 'card.dart';
+
+var seen = Set<Product>();
+List<Product> list =
+      listofproduct.where((product) => seen.add(product)).toList();
 
 //Text(product[i].price.toString()),
-class ListAll extends StatelessWidget {
-  const ListAll({
+class ListAll extends StatefulWidget {
+
+  ListAll({
     Key? key,
+    required List<Product> Product,
   }) : super(key: key);
+
+  @override
+  State<ListAll> createState() => _ListAllState();
+}
+
+class _ListAllState extends State<ListAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 199, 240, 245),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text(
+          'Product',
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            for (var i = 0; i < product.length; i++)
+            for (int i = 0; i < listofproduct.length; i++)            
               Container(
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 239, 229, 229)),
@@ -37,8 +66,8 @@ class ListAll extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: AssetImage(product[i].image)),
+                        image:
+                            DecorationImage(image: AssetImage(listofproduct[i].image)),
                       ),
                     ),
                     Padding(
@@ -50,7 +79,7 @@ class ListAll extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              product[i].title,
+                              listofproduct[i].title,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -60,7 +89,7 @@ class ListAll extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              '\$${product[i].price.toStringAsFixed(2)}',
+                              '\$${listofproduct[i].price.toStringAsFixed(2)}',
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 100, 98, 98),
                                 fontSize: 16,
@@ -76,7 +105,7 @@ class ListAll extends StatelessWidget {
                                   color: Color.fromARGB(255, 227, 199, 116),
                                 ),
                                 SizedBox(
-                                  child: Text('(${product[i].rate})'),
+                                  child: Text('(${listofproduct[i].rate})'),
                                 )
                               ],
                             ),

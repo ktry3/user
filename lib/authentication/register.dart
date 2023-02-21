@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:finalprojectkrumony/authentication/loginpage.dart';
+import 'package:finalprojectkrumony/view/firstpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api.dart';
-import '../view/dashboard.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _RegisterState extends State<Register> {
       localStorage.setString('token', body['access_token']);
       localStorage.setString('user', json.encode(body['data']));
       Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => Dashboard()));
+          context, new MaterialPageRoute(builder: (context) => MyHomePage()));
     } on TimeoutException catch (e) {}
   }
 

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:finalprojectkrumony/view/dashboard.dart';
+import 'package:finalprojectkrumony/view/firstpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -49,7 +49,7 @@ class _LoginPageAppState extends State<LoginPageApp> {
           );
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
+            MaterialPageRoute(builder: (context) => MyHomePage()),
           );
         }
       } on TimeoutException catch (e) {}

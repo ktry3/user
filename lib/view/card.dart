@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/controllers.dart';
 import '../models/listproduct.dart';
-class Carded extends StatelessWidget {
+
+List<Product> listofproduct = [];
+
+class Carded extends StatefulWidget {
   final Product product;
   final VoidCallback press;
-  final controller = Get.put(Colorr());
-
-
   Carded({super.key, required this.product, required this.press});
+
+  @override
+  State<Carded> createState() => _CardedState();
+}
+
+class _CardedState extends State<Carded> {
+  final controller = Get.put(Colorr());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: press,
+      onTap: widget.press,
       child: Container(
         padding: const EdgeInsets.all(5),
         child: Container(
@@ -41,7 +48,7 @@ class Carded extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
                       image: DecorationImage(
-                        image: AssetImage(product.image),
+                        image: AssetImage(widget.product.image),
                       ),
                     ),
                   ),
@@ -90,7 +97,7 @@ class Carded extends StatelessWidget {
                     color: Color.fromARGB(255, 227, 199, 116),
                   ),
                   SizedBox(
-                    child: Text('(${product.rate})'),
+                    child: Text('(${widget.product.rate})'),
                   )
                 ],
               ),
@@ -102,14 +109,14 @@ class Carded extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: '${product.title}\n ',
+                            text: '${widget.product.title}\n ',
                             style: const TextStyle(
                               fontSize: 16,
                               color: Color.fromARGB(255, 119, 113, 113),
                             ),
                           ),
                           TextSpan(
-                            text: '\$${product.price}',
+                            text: '\$${widget.product.price}',
                             style: const TextStyle(
                               fontSize: 22,
                               color: Color.fromARGB(255, 234, 185, 185),
@@ -121,7 +128,10 @@ class Carded extends StatelessWidget {
                   ),
                   const Spacer(),
                   FloatingActionButton.small(
-                    onPressed: () {},
+                    onPressed: () {
+                      listofproduct.add(widget.product);
+                      print(listofproduct);
+                    },
                     backgroundColor: Colors.brown,
                     child: const Icon(
                       Icons.add,

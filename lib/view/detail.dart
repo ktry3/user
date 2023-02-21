@@ -1,14 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../api/api.dart';
+import '../authentication/loginpage.dart';
 import '../models/listproduct.dart';
+import 'displayuser.dart';
 import 'list_all.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final Product product;
-  const DetailScreen({Key? key, required this.product}) : super(key: key);
+  const DetailScreen({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  @override
+  void logout() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    var res = await CallApi().postLogout(token, 'logout');
+    var body = json.decode(res.body);
+    localStorage.remove('user');
+    localStorage.remove('token');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPageApp(),
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +62,9 @@ class DetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => ListAll()),
+                  builder: ((context) => ListAll(
+                        Product: [],
+                      )),
                 ),
               );
             },
@@ -43,6 +74,71 @@ class DetailScreen extends StatelessWidget {
             ),
           )
         ],
+      ),
+      drawer: Drawer(
+        width: 250,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                children: const [
+                  SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/avata.jpg'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text('Mrr Kim Chhorng')
+                ],
+              ),
+            ),
+
+            ListTile(
+              leading: const Icon(
+                Icons.home,
+              ),
+              title: const Text('Display User'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const DisplayUser()),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.home,
+              ),
+              title: const Text('Log Out'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const LoginPageApp()),
+                  ),
+                );
+              },
+            ),
+            // ListTile(
+            //   leading: Icon(
+            //     Icons.train,
+            //   ),
+            //   title: const Text('Page 2'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -72,7 +168,7 @@ class DetailScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         image: DecorationImage(
-                          image: AssetImage(product.image),
+                          image: AssetImage(widget.product.image),
                         ),
                       ),
                     ),
@@ -117,7 +213,8 @@ class DetailScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       SizedBox(
-                        child: Text('\$${product.price.toStringAsFixed(2)}'),
+                        child: Text(
+                            '\$${widget.product.price.toStringAsFixed(2)}'),
                       )
                     ],
                   ),
@@ -195,7 +292,7 @@ class DetailScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: Text(
-                    '(${product.rate})',
+                    '(${widget.product.rate})',
                     style: const TextStyle(
                       fontSize: 22,
                       color: Color.fromARGB(255, 114, 106, 106),
@@ -253,7 +350,7 @@ class DetailScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Text(
-                        'Total: \$${product.price.toStringAsFixed(2)}',
+                        'Total: \$${widget.product.price.toStringAsFixed(2)}',
                         style: const TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 34, 49, 56)),
