@@ -9,6 +9,8 @@ class Product {
   });
 }
 
+
+
 List<Product> product = [
   Product(
     image: 'assets/images/image1.jpg',

@@ -17,13 +17,16 @@ class ListAll extends StatefulWidget {
 }
 
 class _ListAllState extends State<ListAll> {
+
+
   List<Product> list = listofproduct;
-  int count = 1;
+  List<int> count = [1, 1, 1, 1, 1, 1, 1, 1];
   _remove(Product product){
     setState((){
       list.remove(product);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,13 +59,18 @@ class _ListAllState extends State<ListAll> {
                 alignment: Alignment.center,
                 child: Row(
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(
                         left: 30,
                       ),
-                      child: Icon(
-                        Icons.circle_outlined,
-                        color: Colors.grey,
+
+                      child: IconButton(
+                        onPressed: () => _remove(list[i]),
+                        icon:Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                     Container(
@@ -124,16 +132,30 @@ class _ListAllState extends State<ListAll> {
                         Padding(
                           padding: const EdgeInsets.only(left: 2),
                           child: IconButton(
-                            onPressed: () => _remove(list[i]),
+                            onPressed: () => {
+                              setState((){
+
+                                count[i]--;
+                                if (count[i] == 0)
+                                  {
+                                    _remove(list[i]);
+                                    count[i] = 1;
+                                  }
+                              })
+                            },
                             icon: const Icon(
                               Icons.remove,
                               size: 20,
                             ),
                           ),
                         ),
-                         Text('$count'),
+                         Text('${count[i]}'),
                         IconButton(
-                          onPressed: () => _remove(list[i]),
+                          onPressed: () => {
+                            setState((){
+                              count[i]++;
+                            })
+                          },
                           icon: const Icon(
                             Icons.add,
                             size: 20,
