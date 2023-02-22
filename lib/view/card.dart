@@ -129,6 +129,13 @@ class _CardedState extends State<Carded> {
                   const Spacer(),
                   FloatingActionButton.small(
                     onPressed: () {
+                      for (int i = 0; i < listofproduct.length; i++)
+                      {
+                        if (listofproduct[i].image == widget.product.image)
+                        {
+                          return;
+                        }
+                      }
                       listofproduct.add(widget.product);
                       print(listofproduct);
                     },

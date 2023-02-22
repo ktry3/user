@@ -2,10 +2,6 @@ import 'package:finalprojectkrumony/models/listproduct.dart';
 import 'package:flutter/material.dart';
 import 'card.dart';
 
-var seen = Set<Product>();
-List<Product> list =
-      listofproduct.where((product) => seen.add(product)).toList();
-
 //Text(product[i].price.toString()),
 class ListAll extends StatefulWidget {
 
@@ -14,11 +10,20 @@ class ListAll extends StatefulWidget {
     required List<Product> Product,
   }) : super(key: key);
 
+
+
   @override
   State<ListAll> createState() => _ListAllState();
 }
 
 class _ListAllState extends State<ListAll> {
+  List<Product> list = listofproduct;
+  int count = 1;
+  _remove(Product product){
+    setState((){
+      list.remove(product);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +47,7 @@ class _ListAllState extends State<ListAll> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            for (int i = 0; i < listofproduct.length; i++)            
+            for (int i = 0; i < list.length; i++)
               Container(
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 239, 229, 229)),
@@ -67,7 +72,7 @@ class _ListAllState extends State<ListAll> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image:
-                            DecorationImage(image: AssetImage(listofproduct[i].image)),
+                            DecorationImage(image: AssetImage(list[i].image)),
                       ),
                     ),
                     Padding(
@@ -79,7 +84,7 @@ class _ListAllState extends State<ListAll> {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              listofproduct[i].title,
+                              list[i].title,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -89,7 +94,7 @@ class _ListAllState extends State<ListAll> {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              '\$${listofproduct[i].price.toStringAsFixed(2)}',
+                              '\$${list[i].price.toStringAsFixed(2)}',
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 100, 98, 98),
                                 fontSize: 16,
@@ -105,7 +110,7 @@ class _ListAllState extends State<ListAll> {
                                   color: Color.fromARGB(255, 227, 199, 116),
                                 ),
                                 SizedBox(
-                                  child: Text('(${listofproduct[i].rate})'),
+                                  child: Text('(${list[i].rate})'),
                                 )
                               ],
                             ),
@@ -119,16 +124,16 @@ class _ListAllState extends State<ListAll> {
                         Padding(
                           padding: const EdgeInsets.only(left: 2),
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () => _remove(list[i]),
                             icon: const Icon(
                               Icons.remove,
                               size: 20,
                             ),
                           ),
                         ),
-                        const Text('01'),
+                         Text('$count'),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => _remove(list[i]),
                           icon: const Icon(
                             Icons.add,
                             size: 20,
